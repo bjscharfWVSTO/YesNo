@@ -1,0 +1,43 @@
+﻿@page "/"
+@rendermode InteractiveServer
+@inject IJSRuntime JS
+
+<div style="display: flex; justify-content: center; align-items: center; height: 100vh; gap: 40px;">
+    <button @onclick="PlayYes" style="width: 200px; height: 200px; font-size: 48px; cursor: pointer; border-radius: 10px; background-color: #4CAF50; color: white; border: none; font-weight: bold;">
+        YES
+    </button>
+    <button @onclick="PlayNo" style="width: 200px; height: 200px; font-size: 48px; cursor: pointer; border-radius: 10px; background-color: #f44336; color: white; border: none; font-weight: bold;">
+        NO
+    </button>
+</div>
+
+@* <audio #yesAudio src="audio/yes.mp3"></audio>
+<audio #noAudio src="audio/no.mp3"></audio>
+ *@
+@code {
+    // private ElementReference yesAudio;
+    // private ElementReference noAudio;
+    private IJSObjectReference? jsModule;
+
+    
+    private async Task PlayYes()
+    {
+        await JS.InvokeVoidAsync("playYes");
+    }
+
+    private async Task PlayNo()
+    {
+        await JS.InvokeVoidAsync("playNo");
+    }
+}
+
+<script>
+    function playYes() {
+        var music = new Audio('audio/yes.mp3');
+        music.play();
+    }
+    function playNo(audioFile) {
+        var music = new Audio('audio/no.mp3');
+        music.play();
+    }
+</script>
