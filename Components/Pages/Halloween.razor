@@ -1,50 +1,33 @@
 ﻿@page "/halloween"
 @rendermode InteractiveServer
-@inject IJSRuntime JS
 
 <div style="display: flex; width: 100%; height: 100vh;">
-    <button @onclick="PlayTrickOrTreat" style="flex: 0.75 1 0; min-width: 0; padding: 1rem; font-size: clamp(2rem, 10vw, 10rem); line-height: 1.1; text-align: center; white-space: normal; overflow-wrap: break-word; cursor: pointer; background-color: #FF7518 ; color: #1A1A1A ; border: none; font-weight: bold; display: flex; align-items: center; justify-content: center;">
+    <button onclick="playHalloweenAudio('trickOrTreatAudio')" style="flex: 0.75 1 0; min-width: 0; padding: 1rem; font-size: clamp(2rem, 10vw, 10rem); line-height: 1.1; text-align: center; white-space: normal; overflow-wrap: break-word; cursor: pointer; background-color: #FF7518 ; color: #1A1A1A ; border: none; font-weight: bold; display: flex; align-items: center; justify-content: center;">
         Trick or Treat
     </button>
-    <button @onclick="PlayThankYou" style="flex: 0.85 1 0; min-width: 0; padding: 1rem; font-size: clamp(2rem, 10vw, 10rem); line-height: 1.1; text-align: center; white-space: normal; overflow-wrap: break-word; cursor: pointer; background-color: #9B59B6 ; color: white; border: none; font-weight: bold; display: flex; align-items: center; justify-content: center;">
+    <button onclick="playHalloweenAudio('thankYouAudio')" style="flex: 0.85 1 0; min-width: 0; padding: 1rem; font-size: clamp(2rem, 10vw, 10rem); line-height: 1.1; text-align: center; white-space: normal; overflow-wrap: break-word; cursor: pointer; background-color: #9B59B6 ; color: white; border: none; font-weight: bold; display: flex; align-items: center; justify-content: center;">
         Thank you
     </button>
-    <button @onclick="PlayHappyHalloween" style="flex: 1.1 1 0; min-width: 0; padding: 1rem; font-size: clamp(1.5rem, 7vw, 7rem); line-height: 1.1; text-align: center; white-space: normal; overflow-wrap: break-word; cursor: pointer; background-color: #00FF66 ; color: white; border: none; font-weight: bold; display: flex; align-items: center; justify-content: center;">
+    <button onclick="playHalloweenAudio('happyHalloweenAudio')" style="flex: 1.1 1 0; min-width: 0; padding: 1rem; font-size: clamp(1.5rem, 7vw, 7rem); line-height: 1.1; text-align: center; white-space: normal; overflow-wrap: break-word; cursor: pointer; background-color: #00FF66 ; color: white; border: none; font-weight: bold; display: flex; align-items: center; justify-content: center;">
         Happy Halloween
     </button>
 </div>
 
-@code {
-    private IJSObjectReference? jsModule;
-
-
-    private async Task PlayTrickOrTreat()
-    {
-        await JS.InvokeVoidAsync("playTrickOrTreat");
-    }
-
-    private async Task PlayThankYou()
-    {
-        await JS.InvokeVoidAsync("playThankYou");
-    }
-
-    private async Task PlayHappyHalloween()
-    {
-        await JS.InvokeVoidAsync("playHappyHalloween");
-    }
-}
+<audio id="trickOrTreatAudio" src="audio/TrickOrTreat.mp3" preload="auto" style="display: none;"></audio>
+<audio id="thankYouAudio" src="audio/ThankYou.mp3" preload="auto" style="display: none;"></audio>
+<audio id="happyHalloweenAudio" src="audio/HappyHalloween.mp3" preload="auto" style="display: none;"></audio>
 
 <script>
-    function playTrickOrTreat() {
-        var music = new Audio('audio/TrickOrTreat.mp3');
-        music.play();
-    }
-    function playThankYou(audioFile) {
-        var music = new Audio('audio/ThankYou.mp3');
-        music.play();
-    }
-    function playHappyHalloween(audioFile) {
-        var music = new Audio('audio/HappyHalloween.mp3');
-        music.play();
+    var somethingPlayed = false;
+    function playHalloweenAudio(audioId) {
+        const audio = document.getElementById(audioId);
+
+        if (somethingPlayed == false) {
+            audio.currentTime = 0;
+            audio.play().catch(error => console.error("Audio playback failed:", error));
+        }
+
+        audio.currentTime = 0;
+        audio.play().catch(error => console.error("Audio playback failed:", error));
     }
 </script>
